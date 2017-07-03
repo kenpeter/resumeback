@@ -35,6 +35,40 @@ app.use(bodyParser.json());
 // use morgan to log requests to the console
 app.use(morgan('dev'));
 
+
+// wrap promise in a func, then return it.
+const defaultUserSavePromise = function() {
+  return new Promise(function (resolve, reject) {
+    // create a user
+    const theUser = new User({
+      displayName: 'Gary Liang',
+      username: 'kenpeter',
+      password: 'password',
+      admin: true
+    });
+
+    // save it
+    // save the sample user
+    theUser.save(function(err) {
+      // err
+      if (err) {
+        let obj = { success: false };
+        reject(err);
+      }
+      else {
+        let obj = { success: true };
+        resolve(obj);
+      }
+    });
+
+  });
+}
+
+
+
+
+
+
 // default -------------------------------------------
 app.get('/', function(req, res) {
   // res send
@@ -43,26 +77,20 @@ app.get('/', function(req, res) {
 
 
 // set up user -------------------------------
-app.get('/setup', function(req, res) {
+app.get('/setup', async function(req, res) {
+  try {
+    let saveRes = await defaultUserSavePromise();
+    console.log("-- set up --");
+    console.log(saveRes);
+    // this will stop the browser loading..
+    res.send(saveRes);
+  }
+  catch(err) {
+    console.log('-- error --');
+    console.error(err);
+  }
 
-  // create a user
-  const theUser = new User({
-    displayName: 'Gary Liang',
-    username: 'kenpeter',
-    password: 'password',
-    admin: true
-  });
 
-  // save it
-  // save the sample user
-  theUser.save(function(err) {
-    // err
-    if (err) throw err;
-    // log
-    console.log('User saved successfully');
-    // res json
-    res.json({ success: true });
-  });
 });
 
 
