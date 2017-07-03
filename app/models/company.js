@@ -1,4 +1,8 @@
 //
+const mongoose = require('mongoose');
+//
+const conn = require('../../connect');
+//
 const Schema = mongoose.Schema;
 
 const CompanySchema = new Schema({

@@ -1,5 +1,7 @@
 // connect to db
-require('../../connect');
+const mongoose = require('mongoose');
+
+const conn = require('../../connect');
 
 //
 const Schema = mongoose.Schema;

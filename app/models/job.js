@@ -1,4 +1,8 @@
 //
+const mongoose = require('mongoose');
+//
+const conn = require('../../connect');
+//
 const Schema = mongoose.Schema;
 
 const JobSchema = new Schema({
