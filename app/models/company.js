@@ -9,15 +9,13 @@ const conn = mongoose.createConnection(config.database);
 //
 const Schema = mongoose.Schema;
 
-const UserSchema = new Schema({
+const CompanySchema = new Schema({
   displayName: String,
-  username: String,
-  password: String, // Hack
-  admin: Boolean
-  jobs: [Schema.Types.ObjectId],
+  name: String,
+  description: String,
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now }
 })
 
-const User = conn.model('User', UserSchema);
-module.exports = User;
+const Company = conn.model('Company', CompanySchema);
+module.exports = Company;
