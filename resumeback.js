@@ -45,7 +45,7 @@ app.get('/', function(req, res) {
 // set up user -------------------------------
 app.get('/setup', function(req, res) {
 
-
+  // create a user
   const theUser = new User({
     displayName: 'Gary Liang',
     username: 'kenpeter',
