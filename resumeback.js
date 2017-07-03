@@ -14,7 +14,7 @@ const jwt = require('jsonwebtoken'); // used to create, sign, and verify tokens
 // the db and secret
 const config = require('./config'); // get our config file
 
-// user model
+// model
 const User = require('./app/models/user');
 const Company = require('./app/models/company');
 const Job = require('./app/models/job');
@@ -36,6 +36,29 @@ app.use(bodyParser.json());
 app.use(morgan('dev'));
 
 
+// does default user already exist
+// wrap promise in a func, then return it.
+const doesDefaultUserExistPromise = function() {
+  return new Promise(function (resolve, reject) {
+    let obj = {username: 'kenpeter'};
+    User.findOne(obj, function(err, res) {
+      // err
+      if (err) {
+        let obj = { success: false };
+        console.log(err);
+        reject(obj);
+      }
+      else {
+        let obj = { success: true };
+        console.log(res);
+        resolve(res);
+      }
+    });
+
+  });
+}
+
+
 // wrap promise in a func, then return it.
 const defaultUserSavePromise = function() {
   return new Promise(function (resolve, reject) {
@@ -53,7 +76,8 @@ const defaultUserSavePromise = function() {
       // err
       if (err) {
         let obj = { success: false };
-        reject(err);
+        console.log(err);
+        reject(obj);
       }
       else {
         let obj = { success: true };
@@ -79,11 +103,17 @@ app.get('/', function(req, res) {
 // set up user -------------------------------
 app.get('/setup', async function(req, res) {
   try {
-    let saveRes = await defaultUserSavePromise();
-    console.log("-- set up --");
-    console.log(saveRes);
-    // this will stop the browser loading..
-    res.send(saveRes);
+    let userExistRes = await doesDefaultUserExistPromise();
+    if(userExistRes._id != undefined) {
+      // user already there, do nothing.
+      console.log('-- user already exist --');
+    }
+    else {
+      console.log('-- user not exist, create --');
+      let userSaveRes = await defaultUserSavePromise();
+    }
+
+    res.send({success: true});
   }
   catch(err) {
     console.log('-- error --');
