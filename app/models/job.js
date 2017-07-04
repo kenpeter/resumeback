@@ -9,9 +9,10 @@ const JobSchema = new Schema({
   company: Schema.Types.ObjectId,
   jobTitle: String,
   description: String,
+  orderNum: Number,
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now }
-})
+});
 
 const Job = conn.model('Job', JobSchema);
 module.exports = Job;

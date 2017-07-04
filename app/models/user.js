@@ -14,7 +14,7 @@ const UserSchema = new Schema({
   jobs: [Schema.Types.ObjectId],
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now }
-})
+});
 //
 const User = conn.model('User', UserSchema);
 //
