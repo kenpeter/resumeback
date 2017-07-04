@@ -8,7 +8,10 @@ const Schema = mongoose.Schema;
 const CompanySchema = new Schema({
   displayName: String,
   name: String,
+  jobTitle: String,
+  url: String,
   description: String,
+  orderNum: Number,
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now }
 })

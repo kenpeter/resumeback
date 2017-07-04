@@ -8,16 +8,13 @@ const bodyParser  = require('body-parser');
 const morgan = require('morgan');
 // db
 const mongoose = require('mongoose');
-
 // web token
 const jwt = require('jsonwebtoken'); // used to create, sign, and verify tokens
 // the db and secret
 const config = require('./config'); // get our config file
 
-// model
-const User = require('./app/models/user');
-const Company = require('./app/models/company');
-const Job = require('./app/models/job');
+// lib
+const mylib = require('./lib/lib');
 
 // port 8080
 const port = process.env.PORT || 8080; // used to create, sign, and verify tokens
@@ -36,61 +33,6 @@ app.use(bodyParser.json());
 app.use(morgan('dev'));
 
 
-// does default user already exist
-// wrap promise in a func, then return it.
-const doesDefaultUserExistPromise = function() {
-  return new Promise(function (resolve, reject) {
-    let obj = {username: 'kenpeter'};
-    User.findOne(obj, function(err, res) {
-      // err
-      if (err) {
-        let obj = { success: false };
-        console.log(err);
-        reject(obj);
-      }
-      else {
-        let obj = { success: true };
-        console.log(res);
-        resolve(res);
-      }
-    });
-
-  });
-}
-
-
-// wrap promise in a func, then return it.
-const defaultUserSavePromise = function() {
-  return new Promise(function (resolve, reject) {
-    // create a user
-    const theUser = new User({
-      displayName: 'Gary Liang',
-      username: 'kenpeter',
-      password: 'password',
-      admin: true
-    });
-
-    // save it
-    // save the sample user
-    theUser.save(function(err) {
-      // err
-      if (err) {
-        let obj = { success: false };
-        console.log(err);
-        reject(obj);
-      }
-      else {
-        let obj = { success: true };
-        resolve(obj);
-      }
-    });
-
-  });
-}
-
-
-
-
 
 
 // default -------------------------------------------
@@ -103,17 +45,22 @@ app.get('/', function(req, res) {
 // set up user -------------------------------
 app.get('/setup', async function(req, res) {
   try {
-    let userExistRes = await doesDefaultUserExistPromise();
-    if(userExistRes._id != undefined) {
+    let userExistRes = await mylib.doesDefaultUserExistPromise();
+    if(userExistRes != undefined) {
       // user already there, do nothing.
-      console.log('-- user already exist --');
+      console.log('-- default user already exist --');
+      res.send({isUserExist: true});
     }
     else {
-      console.log('-- user not exist, create --');
-      let userSaveRes = await defaultUserSavePromise();
-    }
+      console.log('-- default user not exist, create --');
+      // create default user
+      let userSaveRes = await mylib.defaultUserSavePromise();
+      // create company
+      await mylib.defaultCompany1SavePromise();
+      await mylib.defaultCompany2SavePromise();
 
-    res.send({success: true});
+      res.send({createdSuccess: true});
+    }
   }
   catch(err) {
     console.log('-- error --');
