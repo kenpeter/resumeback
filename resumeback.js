@@ -16,6 +16,11 @@ const config = require('./config'); // get our config file
 // lib
 const mylib = require('./lib/lib');
 
+// model
+const User = require('./app/models/user');
+const Company = require('./app/models/company');
+const Job = require('./app/models/job');
+
 // port 8080
 const port = process.env.PORT || 8080; // used to create, sign, and verify tokens
 
@@ -35,14 +40,14 @@ app.use(morgan('dev'));
 
 
 
-// default -------------------------------------------
+// default
 app.get('/', function(req, res) {
   // res send
   res.send('This is the boring default page.');
 });
 
 
-// set up user -------------------------------
+// set up user
 app.get('/setup', async function(req, res) {
   try {
     let userExistRes = await mylib.doesDefaultUserExistPromise();
@@ -97,11 +102,29 @@ app.get('/setup', async function(req, res) {
     console.log('-- error --');
     console.error(err);
   }
-
-
 });
 
 
+// express router
+const apiRoutes = express.Router();
+
+//
+apiRoutes.get('/', function(req, res) {
+  res.json({ message: 'Welcome to the boring API' });
+});
+
+apiRoutes.get('/defaultUser', function(req, res) {
+  // User find all
+  // callback, err, back users
+  User.findOne({username: 'kenpeter'}, function(err, user) {
+    res.json(user);
+  });
+});
+
+
+
+// use the actual api
+app.use('/api', apiRoutes);
 
 
 // listen
