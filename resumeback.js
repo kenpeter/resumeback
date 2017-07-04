@@ -58,6 +58,15 @@ app.get('/setup', async function(req, res) {
       // create company
       await mylib.defaultCompany1SavePromise();
       await mylib.defaultCompany2SavePromise();
+      await mylib.defaultCompany3SavePromise();
+      await mylib.defaultCompany4SavePromise();
+      await mylib.defaultCompany5SavePromise();
+      await mylib.defaultCompany6SavePromise();
+      await mylib.defaultCompany7SavePromise();
+      await mylib.defaultCompany8SavePromise();
+      await mylib.defaultCompany9SavePromise();
+      await mylib.defaultCompany10SavePromise();
+
 
       res.send({createdSuccess: true});
     }
