@@ -116,9 +116,25 @@ apiRoutes.get('/', function(req, res) {
 apiRoutes.get('/defaultUser', function(req, res) {
   // User find all
   // callback, err, back users
-  User.findOne({username: 'kenpeter'}, function(err, user) {
-    res.json(user);
-  });
+  User
+    .findOne({username: 'kenpeter'})
+    .populate({
+      path: 'jobs',
+      populate: { path: 'company' }
+    })
+    .exec(function (err, user) {
+      if (err) {
+        console.log('-- get default user error --');
+        console.log(err);
+        res.json({ error: true });
+      }
+      else {
+        console.log('-- api get default user --');
+        //console.log(user);
+        res.json({user: user});
+      }
+
+    });
 });
 
 

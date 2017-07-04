@@ -11,7 +11,7 @@ const UserSchema = new Schema({
   username: String,
   password: String, // Hack
   admin: Boolean,
-  jobs: [Schema.Types.ObjectId],
+  jobs: [{type: Schema.Types.ObjectId, ref: 'Job'}],
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now }
 });

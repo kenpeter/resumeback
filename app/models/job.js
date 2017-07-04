@@ -6,7 +6,7 @@ const conn = require('../../connect');
 const Schema = mongoose.Schema;
 
 const JobSchema = new Schema({
-  company: Schema.Types.ObjectId,
+  company: {type: Schema.Types.ObjectId, ref: 'Company' },
   jobTitle: String,
   description: String,
   orderNum: Number,
