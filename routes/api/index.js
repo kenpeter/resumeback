@@ -4,6 +4,7 @@ const User = require('../../app/models/user');
 
 const app = require('../../resumeback');
 
+
 router.post('/auth', function(req, res){
   // find one user
   User.findOne({
@@ -39,6 +40,39 @@ router.post('/auth', function(req, res){
     } // end else if
   }); // end find one
 }); // end post
+
+
+router.use(function(req, res, next) {
+  // Look it wants to have a token in url.
+  var token = req.body.token || req.query.token || req.headers['x-access-token'];
+  // if we have token
+  if (token) {
+    // jwt verify
+    // token, with app.get.var
+    // callback
+    jwt.verify(token, app.get('superSecret'), function(err, decoded) {
+      // err
+      if (err) {
+        // res
+        return res.json({ success: false, message: 'Failed to authenticate token.' });
+      } else {
+        // if everything is good, save to request for use in other routes
+        // save it and use for next route
+        req.decoded = decoded;
+        // move to next route
+        next();
+      }
+    });
+
+  } else {
+    // if there is no token
+    // return an error
+    return res.status(403).send({
+        success: false,
+        message: 'No token provided.'
+    });
+  }
+});
 
 
 router.get('/defaultUser', function(req, res) {

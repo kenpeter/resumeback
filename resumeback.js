@@ -39,10 +39,9 @@ module.exports = app;
 
 // note if one of the routes not configure, will throw
 // TypeError('Router.use() requires middleware function but got a
-app.use('/api', require('./routes/api'));
 app.use('/setup', require('./routes/setup'));
 app.use('/', require('./routes/welcome'));
-
+app.use('/api', require('./routes/api'));
 
 // listen
 app.listen(port);
