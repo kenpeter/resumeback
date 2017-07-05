@@ -8,8 +8,6 @@ const bodyParser  = require('body-parser');
 const morgan = require('morgan');
 // db
 const mongoose = require('mongoose');
-// web token
-const jwt = require('jsonwebtoken'); // used to create, sign, and verify tokens
 // the db and secret
 const config = require('./config'); // get our config file
 
@@ -35,6 +33,9 @@ app.use(bodyParser.json());
 // express app can use morgon (dev)
 // use morgan to log requests to the console
 app.use(morgan('dev'));
+
+// need to exports it, so ./routes/api/index.js can use this express instance.
+module.exports = app;
 
 // note if one of the routes not configure, will throw
 // TypeError('Router.use() requires middleware function but got a

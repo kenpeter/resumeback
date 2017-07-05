@@ -1,7 +1,7 @@
 // lib
 const mylib = require('../../lib/lib');
 
-var router = require('express').Router();
+const router = require('express').Router();
 
 router.get('/', async function(req, res) {
   try {
