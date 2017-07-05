@@ -5,6 +5,11 @@ const User = require('../../app/models/user');
 const app = require('../../resumeback');
 
 
+router.get('/', function(req, res) {
+  res.json("boring api page");
+});
+
+
 router.post('/auth', function(req, res){
   // find one user
   User.findOne({
