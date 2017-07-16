@@ -9,6 +9,12 @@ router.get('/', function(req, res) {
   res.json("boring api page");
 });
 
+//
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 
 router.post('/auth', function(req, res){
   // find one user
@@ -47,6 +53,7 @@ router.post('/auth', function(req, res){
 }); // end post
 
 
+/*
 router.use(function(req, res, next) {
   // Look it wants to have a token in url.
   var token = req.body.token || req.query.token || req.headers['x-access-token'];
@@ -78,7 +85,7 @@ router.use(function(req, res, next) {
     });
   }
 });
-
+*/
 
 router.get('/defaultUser', function(req, res) {
   // User find all
