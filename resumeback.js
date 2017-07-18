@@ -37,6 +37,13 @@ app.use(morgan('dev'));
 // need to exports it, so ./routes/api/index.js can use this express instance.
 module.exports = app;
 
+// cors
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+
 // note if one of the routes not configure, will throw
 // TypeError('Router.use() requires middleware function but got a
 app.use('/setup', require('./routes/setup'));

@@ -53,10 +53,12 @@ router.post('/auth', function(req, res){
 }); // end post
 
 
-/*
 router.use(function(req, res, next) {
   // Look it wants to have a token in url.
-  var token = req.body.token || req.query.token || req.headers['x-access-token'];
+  var token = req.query.token;
+
+  // NOTE, it seems there is a preflight test here. First time, token is null
+  // next time token is here.
   // if we have token
   if (token) {
     // jwt verify
@@ -75,17 +77,17 @@ router.use(function(req, res, next) {
         next();
       }
     });
-
   } else {
-    // if there is no token
-    // return an error
-    return res.status(403).send({
-        success: false,
-        message: 'No token provided.'
+    // so I cannot send 403 or other error here.
+    // as this will block react to connect.
+    // so 200 is kind of miss leading here.
+    return res.status(200).send({
+      success: false,
+      message: 'No token provided.'
     });
   }
+
 });
-*/
 
 router.get('/defaultUser', function(req, res) {
   // User find all
