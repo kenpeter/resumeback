@@ -1,7 +1,6 @@
 # Intro
 
-
-# Intro
+Hire me at [https://au.linkedin.com/in/thegaryliang](https://au.linkedin.com/in/thegaryliang)
 
 A brief guide on how to build a simple React and Redux website with Express backend, from start to end.
 
